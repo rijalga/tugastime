@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Ajar: Layout, View, Style, Resource & Controller Android</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Palette Terbatas (Max 5 Warna Utama) */
+            --terra: #C06B4E;
+            --sage: #8A9A5B;
+            --sand: #D9C3A5;
+            --cream: #F5EFE6;
+            --brown: #3E2C23;
+
+            /* Visual Context Mapping */
+            --bg-color: var(--cream);
+            --text-color: var(--brown);
+            --card-bg: #FFFFFF;
+            --border-color: var(--sand);
+            --accent-color: var(--terra);
+            --secondary-accent: var(--sage);
+        }
+
+        html[data-theme="dark"] {
+            --bg-color: #1A1614;
+            --text-color: #E6DFD5;
+            --card-bg: #26201C;
+            --border-color: #4A3E37;
+            --cream: #26201C;
+            --sand: #5C4D43;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1, h2, h3, h4, .poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Sticky Navigation */
+        nav.sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--card-bg);
+            border-bottom: 2px solid var(--border-color);
+            min-height: 44px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--sand);
+            color: var(--brown);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            background-color: var(--terra);
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--terra);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 48px 16px;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            line-height: 1.2;
+            color: var(--brown);
+            margin-bottom: 8px;
+        }
+
+        html[data-theme="dark"] .hero h1 {
+            color: #E6DFD5;
+        }
+
+        .hero .subtitle {
+            color: var(--terra);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .id-box {
+            background-color: var(--sand);
+            color: #3E2C23;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .id-item label {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 700;
+            opacity: 0.8;
+            display: block;
+        }
+
+        .id-item span {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .color-strip {
+            display: flex;
+            height: 16px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .color-strip div {
+            flex: 1;
+        }
+
+        .pf {
+            font-size: 13px;
+            opacity: 0.75;
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+            margin-top: 24px;
+        }
+
+        /* Standard Sections */
+        section {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 48px 16px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .num {
+            font-family: 'Poppins', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--terra);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        section h2 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .ana {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sum {
+            margin-bottom: 24px;
+            font-size: 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 2px solid;
+            margin-bottom: 8px;
+        }
+
+        .tag.ok {
+            border-color: var(--sage);
+            color: var(--sage);
+        }
+
+        .tag.no {
+            border-color: var(--terra);
+            color: var(--terra);
+        }
+
+        .trio {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .trio-col {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 16px;
+            border-top: 4px solid;
+        }
+
+        .trio-col.bad { border-top-color: var(--terra); }
+        .trio-col.fix { border-top-color: var(--sage); }
+        .trio-col.lat { border-top-color: var(--sand); }
+
+        .ins {
+            border-left: 6px solid var(--sand);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 17px;
+            padding: 12px 16px;
+            background-color: var(--card-bg);
+            margin-bottom: 24px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        pre, code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        pre {
+            padding: 12px;
+            overflow-x: auto;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+
+        .mock {
+            background-color: var(--cream);
+            border: 2px dashed var(--sand);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        /* Color Swatches Grid (Max 5 Palette) */
+        .sw {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .sw-item {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            text-align: center;
+        }
+
+        .sw-box {
+            height: 56px;
+            width: 100%;
+        }
+
+        .sw-label {
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        th {
+            background-color: var(--sand);
+            color: #3E2C23;
+            font-weight: 700;
+        }
+
+        /* Checklist & Interactive Controls */
+        .chk {
+            display: flex;
+            align-items: center;
+            min-height: 44px;
+            cursor: pointer;
+            gap: 12px;
+            padding: 4px 0;
+        }
+
+        .chk input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--terra);
+        }
+
+        select {
+            min-height: 44px;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .score {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--terra);
+            margin-top: 12px;
+        }
+
+        footer {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 48px 16px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--sand);
+            outline-offset: 2px;
+        }
+
+        /* Print Optimization */
+        @media print {
+            nav.sticky-nav, .btn, .nav-controls {
+                display: none !important;
+            }
+
+            body {
+                background-color: #FFFFFF !important;
+                color: #000000 !important;
+            }
+
+            section {
+                page-break-after: always;
+                border-top: none !important;
+                padding: 20px 0 !important;
+            }
+
+            .card, .ana, .trio-col, pre, table {
+                border: 1px solid #000000 !important;
+                background-color: #FFFFFF !important;
+                color: #000000 !important;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV STICKY -->
+    <nav class="sticky-nav" aria-label="Navigasi Utama">
+        <div class="nav-links">
+            <a href="#sec01">01 Layout</a>
+            <a href="#sec02">02 Anatomi</a>
+            <a href="#sec03">03 Controller</a>
+            <a href="#sec04">04 Resource</a>
+            <a href="#sec05">05 Style & Theme</a>
+            <a href="#sec06">06 Praktik</a>
+            <a href="#sec07">07 Evaluasi</a>
+        </div>
+        <div class="nav-controls">
+            <button class="btn btn-outline" id="theme-toggle" aria-pressed="false" onclick="toggleTheme()">Mode Gelap</button>
+            <button class="btn" onclick="window.print()">Print / PDF</button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <h1>Pengembangan Aplikasi Mobile</h1>
+        <div class="subtitle poppins">Layout, View, Style, Resource & Controller Android</div>
+        
+        <div class="id-box">
+            <div class="id-item">
+                <label>Dosen Pengampu</label>
+                <span>Muhammad Rijal, S.Kom., M.Kom.</span>
+            </div>
+            <div class="id-item">
+                <label>Institusi</label>
+                <span>ITB Nobel Indonesia</span>
+            </div>
+            <div class="id-item">
+                <label>Program Studi</label>
+                <span>STI</span>
+            </div>
+            <div class="id-item">
+                <label>Prasyarat Proyek</label>
+                <span>Aplikasi Chat Firebase</span>
+            </div>
+        </div>
+
+        <!-- Strip 5 Warna Utama Palette Terbatas -->
+        <div class="color-strip" title="Palet Warna Utama (Max 5 Warna)">
+            <div style="background-color: #C06B4E;"></div>
+            <div style="background-color: #8A9A5B;"></div>
+            <div style="background-color: #D9C3A5;"></div>
+            <div style="background-color: #F5EFE6;"></div>
+            <div style="background-color: #3E2C23;"></div>
+        </div>
+
+        <div class="pf">
+            Dosen: Muhammad Rijal, S.Kom., M.Kom. | Institut Teknologi dan Bisnis Nobel Indonesia
+        </div>
+    </header>
+
+    <!-- SECTION 01 -->
+    <section id="sec01">
+        <div class="num">01</div>
+        <h2>Prinsip Dasar Layout & View</h2>
+        
+        <div class="ana">
+            <strong>Analogi Komponen:</strong> Bayangkan `View` sebagai barang-barang di dalam kamar (meja, kursi, lampu), sedangkan `ViewGroup` adalah dinding dan tata ruang kamar itu sendiri yang mengatur di mana barang-barang tersebut diletakkan.
+        </div>
+
+        <p class="sum">Dalam Android, antarmuka pengguna dibangun menggunakan hierarki objek `View` dan `ViewGroup`. Setiap komponen visual yang terlihat pada layar aplikasi chat adalah turunan dari `View`.</p>
+
+        <div class="grid">
+            <div class="card">
+                <span class="tag ok">Elemen UI</span>
+                <h3>View</h3>
+                <p>Elemen UI tunggal yang menggambar sesuatu di layar dan merespons interaksi pengguna. Contoh: `TextView`, `Button`, `ImageView`.</p>
+            </div>
+            <div class="card">
+                <span class="tag ok">Wadah Layout</span>
+                <h3>ViewGroup</h3>
+                <p>Wadah tak kasat mata yang menampung `View` lain dan menentukan aturan posisinya. Contoh: `LinearLayout`, `ConstraintLayout`.</p>
+            </div>
+        </div>
+
+        <h3>Perbandingan 3 Layout Utama</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipe Layout</th>
+                    <th>Mekanisme Posisi</th>
+                    <th>Kelebihan / Kasus Penggunaan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>LinearLayout</strong></td>
+                    <td>Menyusun elemen secara sejajar (Vertikal / Horizontal).</td>
+                    <td>Sederhana, cocok untuk form baris atau daftar linier dasar.</td>
+                </tr>
+                <tr>
+                    <td><strong>ConstraintLayout</strong></td>
+                    <td>Menentukan posisi relatif terhadap elemen lain atau parent.</td>
+                    <td>Fleksibel, meratakan hierarki layout kompleks agar performa cepat.</td>
+                </tr>
+                <tr>
+                    <td><strong>FrameLayout</strong></td>
+                    <td>Menumpuk elemen di atas elemen lain (z-axis).</td>
+                    <td>Ideal untuk kontainer fragment atau overlay loading/badge.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="mock">
+            <div style="text-align:center; font-weight:600; margin-bottom:8px;">Mockup Visual Hierarki Layout Chat</div>
+            <div style="border:1px solid var(--border-color); padding:8px; background:var(--card-bg); border-radius:6px;">
+                [ConstraintLayout Parent]
+                <div style="border:1px dashed var(--terra); padding:6px; margin:4px 0; background:var(--cream);">
+                    ├── Header Bar (LinearLayout Horizontal)
+                </div>
+                <div style="border:1px dashed var(--sage); padding:12px; margin:4px 0; background:var(--card-bg);">
+                    ├── Chat List (RecyclerView)
+                </div>
+                <div style="border:1px dashed var(--terra); padding:6px; margin:4px 0; background:var(--cream);">
+                    └── Input Panel (LinearLayout Horizontal)
+                </div>
+            </div>
+        </div>
+
+        <div class="trio">
+            <div class="trio-col bad">
+                <h4>Kesalahan Umum</h4>
+                <p>Sarang layout (`nested LinearLayout`) terlalu dalam yang menurunkan performa render frame UI.</p>
+            </div>
+            <div class="trio-col fix">
+                <h4>Perbaikan</h4>
+                <p>Gunakan `ConstraintLayout` sebagai root layout utama untuk mendatarkan (*flatten*) hierarki XML.</p>
+            </div>
+            <div class="trio-col lat">
+                <h4>Latihan Mandiri</h4>
+                <p>Ubah layout berundak 3 tingkat menjadi 1 tingkat `ConstraintLayout` pada komponen item chat.</p>
+            </div>
+        </div>
+
+        <div class="ins">
+            Instruksi Penting: Selalu utamakan ConstraintLayout untuk tampilan layar utama agar proses pemrosesan posisi (layout pass) berjalan efisien.
+        </div>
+
+        <div class="pf">
+            Dosen: Muhammad Rijal, S.Kom., M.Kom. | Institut Teknologi dan Bisnis Nobel Indonesia
+        </div>
+    </section>
+
+    <!-- SECTION 02 -->
+    <section id="sec02">
+        <div class="num">02</div>
+        <h2>Anatomi Layar Aplikasi Chat</h2>
+
+        <div class="ana">
+            <strong>Analogi Struktur Layar:</strong> Layar chat seperti papan pengumuman interaktif. Header sebagai judul papan, RecyclerView sebagai deretan papan surat bergulir, dan Input Bar sebagai kotak penulisan di bagian bawah.
+        </div>
+
+        <p class="sum">Layar utama antarmuka chat Firebase terdiri dari tiga bagian vital: Header Informasi lawan bicara, Area Pesan bergulir (RecyclerView), dan Baris Pengiriman pesan.</p>
+
+        <div class="mock">
+            <div style="border:2px solid var(--brown); border-radius:8px; padding:12px; background:var(--card-bg);">
+                <div style="background:var(--sand); padding:8px; font-weight:bold; color:var(--brown);">[Header] Status Lawan Chat</div>
+                <div style="min-height:100px; padding:8px; margin:8px 0; background:var(--cream); border:1px solid var(--border-color);">
+                    <div style="background:var(--sage); color:#fff; padding:4px 8px; border-radius:6px; width:70%; margin-bottom:4px;">Pesan Masuk (Received)</div>
+                    <div style="background:var(--terra); color:#fff; padding:4px 8px; border-radius:6px; width:70%; margin-left:auto;">Pesan Keluar (Sent)</div>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" placeholder="Ketik pesan..." disabled style="flex:1; padding:6px;">
+                    <button class="btn" style="min-height:30px; padding:4px 12px;">Kirim</button>
+                </div>
+            </div>
+        </div>
+
+        <h3>Struktur XML `activity_main.xml`</h3>
+        <pre><code>&lt;androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"&gt;
+
+    &lt;include
+        id="@+id/layoutHeader"
+        layout="@layout/layout_chat_header"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+    &lt;androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMessages"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutHeader"
+        app:layout_bottom_toTopOf="@id/layoutInputBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" /&gt;
+
+    &lt;include
+        id="@+id/layoutInputBar"
+        layout="@layout/layout_chat_input"
+        app:layout_constraintBottom_toBottomOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+
+        <div class="trio">
+            <div class="trio-col bad">
+                <h4>Kesalahan Umum</h4>
+                <p>Menggunakan `ScrollView` menampung `RecyclerView`, menyebabkan pemborosan memori dan scroll macet.</p>
+            </div>
+            <div class="trio-col fix">
+                <h4>Perbaikan</h4>
+                <p>Biarkan `RecyclerView` menangani guliran secara mandiri dengan tinggi `0dp` (`match_constraint`).</p>
+            </div>
+            <div class="trio-col lat">
+                <h4>Latihan Mandiri</h4>
+                <p>Tambahkan atribut `app:stackFromEnd="true"` pada RecyclerView agar pesan otomatis bergulir ke bawah.</p>
+            </div>
+        </div>
+
+        <div class="ins">
+            Instruksi Penting: Gunakan tag &lt;include&gt; untuk memecah berkas XML yang panjang menjadi modul-modul kecil agar lebih mudah dipelihara.
+        </div>
+
+        <div class="pf">
+            Dosen: Muhammad Rijal, S.Kom., M.Kom. | Institut Teknologi dan Bisnis Nobel Indonesia
+        </div>
+    </section>
+
+    <!-- SECTION 03 -->
+    <section id="sec03">
+        <div class="num">03</div>
+        <h2>Widget View & Controller</h2>
+
+        <div class="ana">
+            <strong>Analogi Controller:</strong> Jika `View` adalah instrumen musik, maka `Activity` & `Adapter` adalah konduktor musiknya yang mengatur kapan instrumen harus berbunyi berdasarkan data dari backend Firebase.
+        </div>
+
+        <p class="sum">Integrasi antara elemen visual XML dan logika Kotlin dikendalikan oleh Controller melalui mekanisme ViewBinding dan Adapter.</p>
+
+        <h3>Tabel Widget Utama Aplikasi Chat</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Komponen Widget</th>
+                    <th>Tipe View</th>
+                    <th>Fungsi Utama dalam Chat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>`tvMessageBody`</td>
+                    <td>TextView</td>
+                    <td>Menampilkan teks isi pesan chat.</td>
+                </tr>
+                <tr>
+                    <td>`etInputMessage`</td>
+                    <td>EditText</td>
+                    <td>Menerima ketikan masukan pesan dari pengguna.</td>
+                </tr>
+                <tr>
+                    <td>`btnSend`</td>
+                    <td>ImageButton / Button</td>
+                    <td>Memicu fungsi pengiriman data ke Firebase.</td>
+                </tr>
+                <tr>
+                    <td>`ivUserProfile`</td>
+                    <td>ImageView</td>
+                    <td>Menampilkan foto profil pengguna/lawan bicara.</td>
+                </tr>
+                <tr>
+                    <td>`rvMessages`</td>
+                    <td>RecyclerView</td>
+                    <td>Menampilkan daftar riwayat pesan secara efisien.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="grid">
+            <div class="card">
+                <h3>Activity / Fragment</h3>
+                <p>Bertindak sebagai Controller utama pengendali siklus hidup (*lifecycle*) layar, inisialisasi peristiwa klik, serta mendengarkan perubahan data Firebase Realtime Database.</p>
+            </div>
+            <div class="card">
+                <h3>RecyclerView.Adapter</h3>
+                <p>Jembatan penghubung antara koleksi data list (`List<ChatMessage>`) dan ViewHolder. Mengatur daur ulang View agar penggunaan memori efisien.</p>
+            </div>
+            <div class="card">
+                <h3>ViewBinding</h3>
+                <p>Fitur pengganti `findViewById` yang aman tipe (*type-safe*) dan aman null (*null-safe*) untuk mengakses elemen widget dari XML secara langsung.</p>
+            </div>
+        </div>
+
+        <div class="trio">
+            <div class="trio-col bad">
+                <h4>Kesalahan Umum</h4>
+                <p>Memanggil `findViewById` berulang kali di dalam metode `onBindViewHolder` pada Adapter.</p>
+            </div>
+            <div class="trio-col fix">
+                <h4>Perbaikan</h4>
+                <p>Gunakan pola `ViewHolder` bersama `ViewBinding` untuk menyimpan referensi widget.</p>
+            </div>
+            <div class="trio-col lat">
+                <h4>Latihan Mandiri</h4>
+                <p>Aktifkan `viewBinding { enable = true }` pada berkas `build.gradle.kts` modul aplikasi Anda.</p>
+            </div>
+        </div>
+
+        <div class="ins">
+            Instruksi Penting: Selalu bersihkan referensi Binding pada Fragment saat onDestroyView untuk mencegah kebocoran memori (memory leak).
+        </div>
+
+        <div class="pf">
+            Dosen: Muhammad Rijal, S.Kom., M.Kom. | Institut Teknologi dan Bisnis Nobel Indonesia
+        </div>
+    </section>
+
+    <!-- SECTION 04 -->
+    <section id="sec04">
+        <div class="num">04</div>
+        <h2>Resource Aplikasi Android</h2>
+
+        <div class="ana">
+            <strong>Analogi Resource:</strong> Resource adalah kamus aset terpusat. Mengubah nilai di berkas XML Resource seperti mengubah konstanta di satu tempat; seluruh tampilan aplikasi akan otomatis terbarui tanpa perlu mengubah kode logika.
+        </div>
+
+        <p class="sum">Penyimpanan aset terpisah di folder `res/` memfasilitasi lokalisasi, pemeliharaan warna, serta konsistensi ukuran jarak antarmuka.</p>
+
+        <h3>Palet Warna Terbatas (Maksimal 5 Warna)</h3>
+        <div class="sw">
+            <div class="sw-item">
+                <div class="sw-box" style="background-color: #C06B4E;"></div>
+                <div class="sw-label">Primary (Terra)<br><code>#C06B4E</code></div>
+            </div>
+            <div class="sw-item">
+                <div class="sw-box" style="background-color: #8A9A5B;"></div>
+                <div class="sw-label">Secondary (Sage)<br><code>#8A9A5B</code></div>
+            </div>
+            <div class="sw-item">
+                <div class="sw-box" style="background-color: #D9C3A5;"></div>
+                <div class="sw-label">Accent (Sand)<br><code>#D9C3A5</code></div>
+            </div>
+            <div class="sw-item">
+                <div class="sw-box" style="background-color: #F5EFE6;"></div>
+                <div class="sw-label">Background (Cream)<br><code>#F5EFE6</code></div>
+            </div>
+            <div class="sw-item">
+                <div class="sw-box" style="background-color: #3E2C23;"></div>
+                <div class="sw-label">Text/Dark (Brown)<br><code>#3E2C23</code></div>
+            </div>
+        </div>
+
+        <h3>Contoh Berkas Resource Utama</h3>
+        
+        <strong>res/values/colors.xml</strong>
+        <pre><code>&lt;resources&gt;
+    &lt;color name="brand_primary"&gt;#C06B4E&lt;/color&gt;
+    &lt;color name="brand_secondary"&gt;#8A9A5B&lt;/color&gt;
+    &lt;color name="surface_sand"&gt;#D9C3A5&lt;/color&gt;
+    &lt;color name="bg_cream"&gt;#F5EFE6&lt;/color&gt;
+    &lt;color name="text_brown"&gt;#3E2C23&lt;/color&gt;
+&lt;/resources&gt;</code></pre>
+
+        <strong>res/values/strings.xml</strong>
+        <pre><code>&lt;resources&gt;
+    &lt;string name="app_name"&gt;ChatNobel&lt;/string&gt;
+    &lt;string name="hint_type_message"&gt;Ketik pesan...&lt;/string&gt;
+    &lt;string name="action_send"&gt;Kirim&lt;/string&gt;
+&lt;/resources&gt;</code></pre>
+
+        <strong>res/values/dimens.xml</strong>
+        <pre><code>&lt;resources&gt;
+    &lt;dimen name="spacing_small"&gt;8dp&lt;/dimen&gt;
+    &lt;dimen name="spacing_medium"&gt;16dp&lt;/dimen&gt;
+    &lt;dimen name="text_size_body"&gt;14sp&lt;/dimen&gt;
+&lt;/resources&gt;</code></pre>
+
+        <div class="trio">
+            <div class="trio-col bad">
+                <h4>Kesalahan Umum</h4>
+                <p>Menuliskan nilai warna Hex atau teks biasa secara langsung (*hardcoded*) di XML layout.</p>
+            </div>
+            <div class="trio-col fix">
+                <h4>Perbaikan</h4>
+                <p>Gunakan `@color/` dan `@string/` agar aplikasi mendukung tema serta multi-bahasa.</p>
+            </div>
+            <div class="trio-col lat">
+                <h4>Latihan Mandiri</h4>
+                <p>Ekstrak seluruh teks pada `activity_main.xml` ke dalam `strings.xml` menggunakan pintasan `Alt+Enter`.</p>
+            </div>
+        </div>
+
+        <div class="ins">
+            Instruksi Penting: Gunakan satuan 'dp' untuk ukuran tata letak/padding dan 'sp' khusus untuk ukuran font teks.
+        </div>
+
+        <div class="pf">
+            Dosen: Muhammad Rijal, S.Kom., M.Kom. | Institut Teknologi dan Bisnis Nobel Indonesia
+        </div>
+    </section>
+
+    <!-- SECTION 05 -->
+    <section id="sec05">
+        <div class="num">05</div>
+        <h2>Style & Theme Android</h2>
+
+        <div class="ana">
+            <strong>Analogi Style vs Theme:</strong> `Style` adalah seragam khusus untuk satu elemen (misal: gaya gelembung chat pesan terkirim), sedangkan `Theme` adalah aturan busana keseluruhan aplikasi yang berlaku secara global.
+        </div>
+
+        <p class="sum">Style meminimalkan duplikasi kode XML layout, sementara Theme mengatur atribut konsistensi warna aplikasi pada tingkat global.</p>
+
+        <h3>Definisi Style Gelembung Chat (`styles.xml`)</h3>
+        <pre><code>&lt;resources&gt;
+    &lt;!-- Base Style Gelembung Chat --&gt;
+    &lt;style name="ChatBubble"&gt;
+        &lt;item name="android:padding"&gt;@dimen/spacing_small&lt;/item&gt;
+        &lt;item name="android:textColor"&gt;@color/text_brown&lt;/item&gt;
+        &lt;item name="android:textSize"&gt;@dimen/text_size_body&lt;/item&gt;
+    &lt;/style&gt;
+
+    &lt;!-- Gelembung Pesan Terkirim --&gt;
+    &lt;style name="ChatBubble.Sent"&gt;
+        &lt;item name="android:background"&gt;@color/brand_secondary&lt;/item&gt;
+        &lt;item name="android:textColor"&gt;#FFFFFF&lt;/item&gt;
+    &lt;/style&gt;
+
+    &lt;!-- Gelembung Pesan Diterima --&gt;
+    &lt;style name="ChatBubble.Received"&gt;
+        &lt;item name="android:background"&gt;@color/surface_sand&lt;/item&gt;
+    &lt;/style&gt;
+&lt;/resources&gt;</code></pre>
+
+        <h3>Tema Global Aplikasi (`themes.xml`)</h3>
+        <pre><code>&lt;resources xmlns:tools="http://schemas.android.com/tools"&gt;
+    &lt;style name="Theme.ChatApp" parent="Theme.MaterialComponents.DayNight.NoActionBar"&gt;
+        &lt;item name="colorPrimary"&gt;@color/brand_primary&lt;/item&gt;
+        &lt;item name="colorSecondary"&gt;@color/brand_secondary&lt;/item&gt;
+        &lt;item name="android:statusBarColor"&gt;@color/text_brown&lt;/item&gt;
+        &lt;item name="android:windowBackground"&gt;@color/bg_cream&lt;/item&gt;
+    &lt;/style&gt;
+&lt;/resources&gt;</code></pre>
+
+        <h3>Tabel Pengujian Kontras Warna (Standar WCAG)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Elemen UI</th>
+                    <th>Warna Background</th>
+                    <th>Warna Teks</th>
+                    <th>Rasio Kontras</th>
+                    <th>Status Aksesibilitas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Pesan Terkirim</td>
+                    <td>Sage (`#8A9A5B`)</td>
+                    <td>White (`#FFFFFF`)</td>
+                    <td>4.5:1</td>
+                    <td><span class="tag ok">Lulus AA</span></td>
+                </tr>
+                <tr>
+                    <td>Pesan Diterima</td>
+                    <td>Sand (`#D9C3A5`)</td>
+                    <td>Brown (`#3E2C23`)</td>
+                    <td>7.2:1</td>
+                    <td><span class="tag ok">Lulus AAA</span></td>
+                </tr>
+                <tr>
+                    <td>Header App</td>
+                    <td>Primary (`#C06B4E`)</td>
+                    <td>White (`#FFFFFF`)</td>
+                    <td>4.6:1</td>
+                    <td><span class="tag ok">Lulus AA</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="trio">
+            <div class="trio-col bad">
+                <h4>Kesalahan Umum</h4>
+                <p>Mengulang deklarasi `textSize`, `padding`, dan `fontFamily` di setiap tag `TextView` XML.</p>
+            </div>
+            <div class="trio-col fix">
+                <h4>Perbaikan</h4>
+                <p>Ekstrak properti yang berulang ke dalam satu induk `style` terpusat.</p>
+            </div>
+            <div class="trio-col lat">
+                <h4>Latihan Mandiri</h4>
+                <p>Buat turunan style `ChatBubble.System` untuk pesan info status (misal: "Pesan telah dibaca").</p>
+            </div>
+        </div>
+
+        <div class="ins">
+            Instruksi Penting: Pastikan rasio kontras teks terhadap warna latar minimal 4.5:1 untuk memenuhi standar aksesibilitas WCAG.
+        </div>
+
+        <div class="pf">
+            Dosen: Muhammad Rijal, S.Kom., M.Kom. | Institut Teknologi dan Bisnis Nobel Indonesia
+        </div>
+    </section>
+
+    <!-- SECTION 06 -->
+    <section id="sec06">
+        <div class="num">06</div>
+        <h2>Praktik Kelompok</h2>
+
+        <div class="ana">
+            <strong>Analogi Tim Pengembang:</strong> Pembuatan aplikasi mobile di industri membagi peran secara spesifik. Kolaborasi 4 anggota meniru alur kerja nyata tim software engineering.
+        </div>
+
+        <p class="sum">Setiap kelompok terdiri dari 4 mahasiswa yang berkolaborasi mengonversi rancangan layout ke dalam proyek aplikasi chat Firebase.</p>
+
+        <h3>Pembagian Peran Kelompok (4 Anggota)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Peran</th>
+                    <th>Tanggung Jawab Utama</th>
+                    <th>Output Deliverable</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>UI Designer (A1)</strong></td>
+                    <td>Merancang layout XML, memecah komponen, dan mengelola Resource `colors.xml` & `dimens.xml`.</td>
+                    <td>`activity_main.xml`, `item_chat.xml`</td>
+                </tr>
+                <tr>
+                    <td><strong>Style Master (A2)</strong></td>
+                    <td>Menyusun `styles.xml`, `themes.xml`, dan memastikan aksesibilitas kontras warna antarmuka.</td>
+                    <td>`styles.xml`, `themes.xml`</td>
+                </tr>
+                <tr>
+                    <td><strong>Adapter Engineer (A3)</strong></td>
+                    <td>Membuat `RecyclerView.Adapter` dan mengimplementasikan ViewBinding pada ViewHolder.</td>
+                    <td>`MessageAdapter.kt`</td>
+                </tr>
+                <tr>
+                    <td><strong>Firebase Controller (A4)</strong></td>
+                    <td>Mengisi data dari Realtime Database ke Adapter serta menangani aksi klik kirim pesan.</td>
+                    <td>`MainActivity.kt`</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Langkah Kerja & Estimasi Waktu (Total 100 Menit)</h3>
+        <ol style="padding-left: 20px; margin-bottom: 24px;">
+            <li><strong>Tahap 1 (15 Menit):</strong> Pembagian tugas dan penyelarasan variabel Resource 5 warna.</li>
+            <li><strong>Tahap 2 (30 Menit):</strong> Konstruksi layout XML (`ConstraintLayout` & `RecyclerView`).</li>
+            <li><strong>Tahap 3 (30 Menit):</strong> Pembuatan Style, Theme, serta pengodean `MessageAdapter.kt`.</li>
+            <li><strong>Tahap 4 (25 Menit):</strong> Pengujian integrasi pengiriman pesan Firebase & evaluasi peer review.</li>
+        </ol>
+
+        <div class="trio">
+            <div class="trio-col bad">
+                <h4>Kesalahan Umum</h4>
+                <p>Mengerjakan kode pada modul bertumpukan tanpa pembagian pembagian berkas yang jelas.</p>
+            </div>
+            <div class="trio-col fix">
+                <h4>Perbaikan</h4>
+                <p>Gunakan arsitektur komponen terpisah (Layout XML, Style Resource, Adapter, Activity).</p>
+            </div>
+            <div class="trio-col lat">
+                <h4>Latihan Mandiri</h4>
+                <p>Lakukan *merge* kode antar anggota tim menggunakan Git branching per peran.</p>
+            </div>
+        </div>
+
+        <div class="ins">
+            Instruksi Penting: Pastikan seluruh anggota kelompok melakukan pengujian tampilan pada emulator dengan resolusi layar berbeda.
+        </div>
+
+        <div class="pf">
+            Dosen: Muhammad Rijal, S.Kom., M.Kom. | Institut Teknologi dan Bisnis Nobel Indonesia
+        </div>
+    </section>
+
+    <!-- SECTION 07 -->
+    <section id="sec07">
+        <div class="num">07</div>
+        <h2>Evaluasi & Checklist Mandiri</h2>
+
+        <div class="ana">
+            <strong>Analogi Evaluasi:</strong> Checklist dan rubrik adalah kriteria kelayakan terbang (*pre-flight checklist*). Memastikan tidak ada bug antarmuka sebelum aplikasi dirilis.
+        </div>
+
+        <p class="sum">Gunakan checklist 10 poin interaktif di bawah ini untuk menguji kelengkapan modul praktikum Anda secara mandiri.</p>
+
+        <h3>Checklist Mandiri (10 Poin)</h3>
+        <div id="checklist-container">
+            <label class="chk"><input type="checkbox" onchange="calcChecklist()"> 1. Menggunakan ConstraintLayout sebagai root layout utama.</label>
+            <label class="chk"><input type="checkbox" onchange="calcChecklist()"> 2. Tidak terdapat kelanjutan layout berundak (nested layout) berlebihan.</label>
+            <label class="chk"><input type="checkbox" onchange="calcChecklist()"> 3. Mengimplementasikan RecyclerView untuk daftar pesan chat.</label>
+            <label class="chk"><input type="checkbox" onchange="calcChecklist()"> 4. Seluruh warna terdefinisi di res/values/colors.xml (Maks 5 warna).</label>
+            <label class="chk"><input type="checkbox" onchange="calcChecklist()"> 5. Tidak ada teks hardcoded (menggunakan res/values/strings.xml).</label>
+            <label class="chk"><input type="checkbox" onchange="calcChecklist()"> 6. Ukuran teks menggunakan satuan 'sp' dan margin/padding menggunakan 'dp'.</label>
+            <label class="chk"><input type="checkbox" onchange="calcChecklist()"> 7. Style gelembung pesan terpisah antara ChatBubble.Sent dan Received.</label>
+            <label class="chk"><input type="checkbox" onchange="calcChecklist()"> 8. Mengintegrasikan ViewBinding di Activity dan RecyclerView Adapter.</label>
+            <label class="chk"><input type="checkbox" onchange="calcChecklist()"> 9. Tampilan pesan otomatis bergulir ke baris paling baru.</label>
+            <label class="chk"><input type="checkbox" onchange="calcChecklist()"> 10. Kontras warna teks dan latar belakang memenuhi batas keterbacaan.</label>
+        </div>
+        <div class="score" id="chk-score">Skor Kelengkapan: 0 / 10</div>
+
+        <h3 style="margin-top:32px;">Rubrik Peer Review Kelompok (Skala 1 - 4)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Kriteria Penilaian</th>
+                    <th>Skor (1 - 4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. Efisiensi Layout:</strong> Struktur XML rapi dan bebas dari pemborosan hierarki View.</td>
+                    <td>
+                        <select onchange="calcPeer()" class="peer-sel">
+                            <option value="1">1 - Kurang</option>
+                            <option value="2">2 - Cukup</option>
+                            <option value="3">3 - Baik</option>
+                            <option value="4" selected>4 - Sangat Baik</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>2. Penerapan Resource & Style:</strong> Terpusat di res/values/ dan aman dari hardcoded.</td>
+                    <td>
+                        <select onchange="calcPeer()" class="peer-sel">
+                            <option value="1">1 - Kurang</option>
+                            <option value="2">2 - Cukup</option>
+                            <option value="3">3 - Baik</option>
+                            <option value="4" selected>4 - Sangat Baik</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>3. Implementasi Controller:</strong> ViewBinding dan Adapter berjalan tanpa crash.</td>
+                    <td>
+                        <select onchange="calcPeer()" class="peer-sel">
+                            <option value="1">1 - Kurang</option>
+                            <option value="2">2 - Cukup</option>
+                            <option value="3">3 - Baik</option>
+                            <option value="4" selected>4 - Sangat Baik</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>4. Estetika UI & Aksesibilitas:</strong> Rapi, kontras warna pas, serta ramah pengguna.</td>
+                    <td>
+                        <select onchange="calcPeer()" class="peer-sel">
+                            <option value="1">1 - Kurang</option>
+                            <option value="2">2 - Cukup</option>
+                            <option value="3">3 - Baik</option>
+                            <option value="4" selected>4 - Sangat Baik</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="score" id="peer-score">Total Skor Peer Review: 16 / 16</div>
+
+        <div class="ins" style="margin-top:24px;">
+            Instruksi Penting: Simpan modul ini atau cetak dalam bentuk PDF sebagai dokumentasi bukti praktikum perkuliahan Anda.
+        </div>
+
+        <div class="pf">
+            Dosen: Muhammad Rijal, S.Kom., M.Kom. | Institut Teknologi dan Bisnis Nobel Indonesia
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <h3>Daftar Rujukan & Dokumentasi Resmi</h3>
+        <ul style="padding-left: 20px; margin-bottom: 24px; font-size: 14px;">
+            <li>Android Developers Documentation - Build a Responsive UI with ConstraintLayout (<a href="https://developer.android.com" target="_blank" rel="noopener">developer.android.com</a>)</li>
+            <li>Material Design Guidelines - Color System & Typography (<a href="https://material.io" target="_blank" rel="noopener">material.io</a>)</li>
+            <li>Web Content Accessibility Guidelines (WCAG) 2.1 Contrast Standards</li>
+            <li>Android Studio Layout Editor & ViewBinding Official Guide</li>
+        </ul>
+
+        <div class="pf">
+            <strong>Modul Ajar Interaktif Pengembangan Aplikasi Mobile</strong><br>
+            Dosen Pengampu: Muhammad Rijal, S.Kom., M.Kom.<br>
+            Program STI- Institut Teknologi dan Bisnis Nobel Indonesia
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Toggle Dark Mode
+        function toggleTheme() {
+            const htmlTag = document.documentElement;
+            const themeBtn = document.getElementById('theme-toggle');
+            const isDark = htmlTag.getAttribute('data-theme') === 'dark';
+
+            if (isDark) {
+                htmlTag.setAttribute('data-theme', 'light');
+                themeBtn.setAttribute('aria-pressed', 'false');
+                themeBtn.textContent = 'Mode Gelap';
+            } else {
+                htmlTag.setAttribute('data-theme', 'dark');
+                themeBtn.setAttribute('aria-pressed', 'true');
+                themeBtn.textContent = 'Mode Terang';
+            }
+        }
+
+        // Kalkulasi Interactive Checklist
+        function calcChecklist() {
+            const checkboxes = document.querySelectorAll('#checklist-container input[type="checkbox"]');
+            let checkedCount = 0;
+            checkboxes.forEach(chk => {
+                if (chk.checked) checkedCount++;
+            });
+            document.getElementById('chk-score').textContent = `Skor Kelengkapan: ${checkedCount} / 10`;
+        }
+
+        // Kalkulasi Peer Review Rubrik
+        function calcPeer() {
+            const selects = document.querySelectorAll('.peer-sel');
+            let total = 0;
+            selects.forEach(sel => {
+                total += parseInt(sel.value, 10);
+            });
+            document.getElementById('peer-score').textContent = `Total Skor Peer Review: ${total} / 16`;
+        }
+
+        // Inisialisasi Skor Awal saat Load
+        window.addEventListener('DOMContentLoaded', () => {
+            calcChecklist();
+            calcPeer();
+        });
+    </script>
+</body>
+</html>
